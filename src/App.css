@@ -495,3 +495,147 @@ td strong {
   .stat-card h2 { font-size: 21px; }
   .panel { padding: 14px; }
 }
+
+.refresh-spinning {
+  animation: refresh-spin 1s linear infinite;
+}
+
+@keyframes refresh-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.snapshot-status-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.snapshot-status-card {
+  padding: 22px;
+  border: 1px solid rgba(214, 168, 75, 0.2);
+  border-radius: 12px;
+  background: rgba(214, 168, 75, 0.05);
+}
+
+.snapshot-status-card span {
+  color: #a7a7a7;
+  font-size: 14px;
+}
+
+.snapshot-status-card h2 {
+  margin: 12px 0 0;
+  color: #d6a84b;
+  font-size: 28px;
+}
+
+@media (max-width: 768px) {
+  .snapshot-status-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.snapshot-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 20px 0;
+}
+
+.chart-row {
+  width: 100%;
+}
+
+.chart-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 9px;
+  color: #e5e5e5;
+  font-size: 14px;
+}
+
+.chart-label strong {
+  color: #d6a84b;
+}
+
+.chart-track {
+  width: 100%;
+  height: 14px;
+  background: #252525;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.chart-bar {
+  height: 100%;
+  min-width: 0;
+  background: linear-gradient(90deg, #9c7026, #e5bd65);
+  border-radius: 20px;
+  transition: width 0.5s ease;
+}
+
+
+.revenue-chart {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+  height: 250px;
+  padding: 20px 8px 5px;
+}
+
+.revenue-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 0;
+  gap: 10px;
+}
+
+.revenue-column strong {
+  color: #d6a84b;
+  font-size: 12px;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.revenue-bar-area {
+  width: 65%;
+  height: 155px;
+  display: flex;
+  align-items: flex-end;
+  background: #252525;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.revenue-bar {
+  width: 100%;
+  min-height: 0;
+  background: linear-gradient(180deg, #e5bd65, #9c7026);
+  border-radius: 8px;
+  transition: height 0.5s ease;
+}
+
+.revenue-column span {
+  color: #aaa;
+  font-size: 12px;
+}
+
+@media (max-width: 600px) {
+  .revenue-chart {
+    gap: 6px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .revenue-column strong {
+    font-size: 10px;
+  }
+
+  .revenue-bar-area {
+    width: 75%;
+  }
+}
