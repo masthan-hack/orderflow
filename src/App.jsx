@@ -1108,110 +1108,64 @@ function exportProductsCSV() {
   />
 </div>
 
-              <div className="dashboard-grid">
-                <div className="panel">
-                  <div className="panel-heading">
-                    <div>
-                      <p className="eyebrow">ACTIVITY</p>
-                      <h3>Recent Orders</h3>
-                      
-<div className="panel" style={{ marginTop: 24 }}>
-  <div className="panel-heading">
-    <div>
-      <p className="eyebrow">REVENUE ANALYTICS</p>
-      <h3>Monthly Revenue Trend</h3>
-    </div>
-    <TrendingUp className="gold-icon" />
-  </div>
+         
+<div className="dashboard-grid">
 
-  <div className="revenue-chart">
-    {monthlyRevenueData.map((item) => (
-      <div className="revenue-column" key={item.key}>
-        <strong>
-          ₹{item.revenue.toLocaleString("en-IN")}
-        </strong>
-
-        <div className="revenue-bar-area">
-          <div
-            className="revenue-bar"
-            style={{
-              height: `${(item.revenue / maxMonthlyRevenue) * 100}%`
-            }}
-          />
-        </div>
-
-        <span>{item.label}</span>
+  {/* Recent Orders - Full Width */}
+  <div className="panel recent-orders-full-width">
+    <div className="panel-heading">
+      <div>
+        <p className="eyebrow">ACTIVITY</p>
+        <h3>Recent Orders</h3>
       </div>
-    ))}
+
+      <button
+        className="text-button"
+        onClick={() => setActivePage("Orders")}
+      >
+        View all →
+      </button>
+    </div>
+
+    <OrdersTable data={orders.slice(0, 6)} />
   </div>
+
+  {/* Monthly Revenue Graph - Full Width */}
+  <div className="panel recent-orders-full-width">
+    <div className="panel-heading">
+      <div>
+        <p className="eyebrow">REVENUE ANALYTICS</p>
+        <h3>Monthly Revenue Trend</h3>
+      </div>
+
+      <TrendingUp className="gold-icon" />
+    </div>
+
+    <div className="revenue-chart">
+      {monthlyRevenueData.map((item) => (
+        <div className="revenue-column" key={item.key}>
+          <strong>
+            ₹{item.revenue.toLocaleString("en-IN")}
+          </strong>
+
+          <div className="revenue-bar-area">
+            <div
+              className="revenue-bar"
+              style={{
+                height: `${(item.revenue / maxMonthlyRevenue) * 100}%`
+              }}
+            />
+          </div>
+
+          <span>{item.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+
 </div>
-
-                    </div>
-
-                    <button
-                      className="text-button"
-                      onClick={() => setActivePage("Orders")}
-                    >
-                      View all →
-                    </button>
-                  </div>
-
-                  <OrdersTable data={orders.slice(0, 6)} />
-                </div>
-
-                <div className="panel">
-                  <div className="panel-heading">
-                    <div>
-                      <p className="eyebrow">BUSINESS SNAPSHOT</p>
-                      <h3>Overview</h3>
-                    </div>
-
-                    <TrendingUp className="gold-icon" />
-                  </div>
-
-                  <div className="overview-row">
-                    <span>Customers</span>
-                    <strong>{customers.length}</strong>
-                  </div>
-
-                  <div className="overview-row">
-                    <span>Products</span>
-                    <strong>{products.length}</strong>
-                  </div>
-
-                  <div className="overview-row">
-                    <span>Pending orders</span>
-                    <strong>{pendingOrders}</strong>
-                  </div>
-
-                  <div className="overview-row">
-                    <span>Delivered orders</span>
-                    <strong>{deliveredOrders}</strong>
-                  </div>
-                  <div className="overview-row">
-
-  <span>Total orders</span>
-  <strong>{orders.length}</strong>
-</div>
-
-<div className="overview-row">
-  <span>Confirmed orders</span>
-  <strong>{confirmedOrders}</strong>
-</div>
-
-<div className="overview-row">
-  <span>Dispatched orders</span>
-  <strong>{dispatchedOrders}</strong>
-</div>
-
-
-                  <div className="overview-note">
-                    Figures reflect records currently accessible to this account.
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
+</>
+)}
 
 {activePage === "Business Snapshot" && (
   <div className="business-snapshot-page">
