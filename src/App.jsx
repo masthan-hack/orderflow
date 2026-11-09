@@ -395,9 +395,9 @@ async function deleteOrder(order) {
   }
 }
 function openEditOrder(order) {
-  function openEditOrder(order) {
-  console.log("EDIT BUTTON CLICKED:", order);
+  console.log("Dashboard Edit clicked:", order);
 
+  setError("");
   setEditingOrder(order);
 
   setOrderForm({
@@ -406,19 +406,9 @@ function openEditOrder(order) {
     quantity: String(order.quantity ?? 1),
     amount: String(order.amount ?? 0),
     status: order.status || "Pending",
-    order_date: order.order_date || new Date().toISOString().slice(0, 10)
-  });
-
-  setShowOrderModal(true);
-}
-  setEditingOrder(order);
-  setOrderForm({
-    customer_name: order.customer_name || "",
-    product_name: order.product_name || "",
-    quantity: String(order.quantity ?? 1),
-    amount: String(order.amount ?? 0),
-    status: order.status || "Pending",
-    order_date: order.order_date || new Date().toISOString().slice(0, 10)
+    order_date:
+      order.order_date ||
+      new Date().toISOString().slice(0, 10)
   });
 
   setShowOrderModal(true);
@@ -1127,7 +1117,11 @@ function exportProductsCSV() {
       </button>
     </div>
 
-    <OrdersTable data={orders.slice(0, 6)} />
+    <OrdersTable
+    data={orders.slice(0, 6)}
+    onEdit={openEditOrder}
+    onDelete={deleteOrder}
+    />
   </div>
 
   {/* Monthly Revenue Graph - Full Width */}
