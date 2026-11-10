@@ -621,36 +621,66 @@ const maxMonthlyRevenue = Math.max(
     )
   );
 
-  function exportCSV() {
-    const headers = ["Customer", "Product", "Quantity", "Amount", "Status"];
+function exportCSV() {
+  const headers = [
+    "Order Date",
+    "Customer",
+    "Product",
+    "Quantity",
+    "Amount",
+    "Status"
+  ];
 
-    const rows = orders.map((o) => [
-      o.customer_name || o.customer || "",
-      o.product || o.product_name || "",
-      o.quantity || "",
-      o.amount || "",
-      o.status || ""
-    ]);
+  const formatDate = (value) => {
+    if (!value) return "";
 
-    const csv = [headers, ...rows]
-      .map((row) =>
-        row.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(",")
-      )
-      .join("\n");
-
-    const url = URL.createObjectURL(
-      new Blob([csv], { type: "text/csv" })
+    const date = new Date(
+      `${String(value).slice(0, 10)}T00:00:00`
     );
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "orderflow-orders.csv";
-    a.click();
+    if (Number.isNaN(date.getTime())) return "";
 
-    URL.revokeObjectURL(url);
-  }
+    return date.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric"
+    });
+  };
 
-  
+  const rows = orders.map((o) => [
+    formatDate(o.order_date || o.created_at),
+    o.customer_name || o.customer || "",
+    o.product_name || o.product || "",
+    o.quantity ?? "",
+    o.amount ?? "",
+    o.status || ""
+  ]);
+
+  const csv = [headers, ...rows]
+    .map((row) =>
+      row.map((value) =>
+        `"${String(value).replace(/"/g, '""')}"`
+      ).join(",")
+    )
+    .join("\r\n");
+
+  const blob = new Blob(["\uFEFF" + csv], {
+    type: "text/csv;charset=utf-8;"
+  });
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+
+  a.href = url;
+  a.download = "orderflow-orders.csv";
+
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  URL.revokeObjectURL(url);
+}
+
 function exportProductsCSV() {
   console.log("Products data:", products);
   console.log("Filtered products:", filteredProducts);
