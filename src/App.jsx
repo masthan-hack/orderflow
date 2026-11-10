@@ -251,7 +251,8 @@ async function saveProduct(e) {
       result = await supabase
         .from("products")
         .update(productData)
-        .eq("id", editingProduct.id);
+        .eq("id", editingProduct.id)
+        .eq("business_id", session.user.id);
     } else {
       result = await supabase
         .from("products")
@@ -287,7 +288,8 @@ async function deleteProduct(product) {
     const { error } = await supabase
       .from("products")
       .delete()
-      .eq("id", product.id);
+      .eq("id", product.id)
+      .eq("business_id", session.user.id);
 
     if (error) throw error;
 
@@ -457,7 +459,8 @@ async function saveCustomer(e) {
       result = await supabase
         .from("customers")
         .update(customerData)
-        .eq("id", editingCustomer.id);
+        .eq("id", editingCustomer.id)
+        .eq("business_id", session.user.id);
     } else {
       result = await supabase
         .from("customers")
@@ -480,7 +483,9 @@ async function saveCustomer(e) {
 }
 async function deleteCustomer(customer) {
   const confirmed = window.confirm(
-    `Are you sure you want to delete ${customer.name || customer.customer_name}?`
+    `Are you sure you want to delete ${
+      customer.name || customer.customer_name
+    }?`
   );
 
   if (!confirmed) return;
@@ -488,24 +493,13 @@ async function deleteCustomer(customer) {
   setError("");
 
   try {
-    let result;
+    const { error } = await supabase
+      .from("customers")
+      .delete()
+      .eq("id", customer.id)
+      .eq("business_id", session.user.id);
 
-if (editingOrder) {
-  result = await supabase
-    .from("orders")
-    .update(orderData)
-    .eq("id", editingOrder.id)
-    .eq("business_id", session.user.id);
-} else {
-  result = await supabase
-    .from("orders")
-    .insert({
-      ...orderData,
-      business_id: session.user.id
-    });
-}
-
-if (result.error) throw result.error;
+    if (error) throw error;
 
     await loadAll();
   } catch (err) {
